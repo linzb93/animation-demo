@@ -1,0 +1,85 @@
+<html>
+<head>
+    <style>
+        #canvas {
+            background: #eee;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="1200" height="600"></canvas>
+    <script src="https://cdn.bootcss.com/EaselJS/0.8.0/easeljs.min.js"></script>
+    <script src="https://cdn.bootcss.com/tweenjs/0.6.2/tweenjs.min.js"></script>
+    <script>
+        function drawTweenCirclePath(opt) {
+            var path = [];
+
+            var cpTopLeft = [opt.origin[0] - opt.radius, opt.origin[1] - opt.radius];
+            var cpTopRight = [opt.origin[0] + opt.radius, opt.origin[1] - opt.radius];
+            var cpBottomLeft = [opt.origin[0] - opt.radius, opt.origin[1] + opt.radius];
+            var cpBottomRight = [opt.origin[0] + opt.radius, opt.origin[1] + opt.radius];
+
+            var toTop = [opt.origin[0], opt.origin[1] - opt.radius];
+            var toRight = [opt.origin[0] + opt.radius, opt.origin[1]];
+            var toBottom = [opt.origin[0], opt.origin[1] + opt.radius];
+            var toLeft = [opt.origin[0] - opt.radius, opt.origin[1]];
+
+            switch (opt.beginPoint) {
+                case 'top':
+                if (!opt.clockwise) {
+                    path = [opt.origin[0], opt.origin[1] - opt.radius].concat(cpTopLeft, toLeft, cpBottomLeft, toBottom, cpBottomRight, toRight, cpTopRight, toTop);
+                } else {
+                    path = [opt.origin[0], opt.origin[1] - opt.radius].concat(cpTopRight, toRight, cpBottomRight, toBottom, cpBottomLeft, toLeft, cpTopLeft, toTop);
+                }
+                break;
+                case 'right':
+                if (!opt.clockwise) {
+                    path = [opt.origin[0] + opt.radius, opt.origin[1]].concat(cpTopRight, toTop, cpTopLeft, toLeft, cpBottomLeft, toBottom, cpBottomRight, toRight);
+                } else {
+                    path = [opt.origin[0] + opt.radius, opt.origin[1]].concat(cpBottomRight, toBottom, cpBottomLeft, toLeft, cpTopLeft, toTop, cpTopRight, toRight);
+                }
+                break;
+                case 'bottom':
+                if (!opt.clockwise) {
+                    path = [opt.origin[0], opt.origin[1] + opt.radius].concat(cpBottomRight, toRight, cpTopRight, toTop, cpTopLeft, toLeft, cpBottomLeft, toBottom);
+                } else {
+                    path = [opt.origin[0], opt.origin[1] + opt.radius].concat(cpBottomLeft, toLeft, cpTopLeft, toTop, cpTopRight, toRight, cpBottomRight, toBottom);
+                }
+                break;
+                case 'left':
+                if (!opt.clockwise) {
+                    path = [opt.origin[0] - opt.radius, opt.origin[1]].concat(cpBottomLeft, toBottom, cpBottomRight, toRight, cpTopRight, toTop, cpTopLeft, toLeft);
+                } else {
+                    path = [opt.origin[0] - opt.radius, opt.origin[1]].concat(cpTopLeft, toTop, cpTopRight, toRight, cpBottomRight, toBottom, cpBottomLeft, toLeft);
+                }
+                break;
+                default:
+                break;
+            }
+            return path;
+        }
+        var stage = new createjs.Stage("canvas");
+        createjs.Ticker.addEventListener("tick", tick);
+        createjs.MotionGuidePlugin.install();
+
+        var shape = new createjs.Shape();
+        shape.graphics.beginFill("#ff00ff").drawCircle(0,0,50);
+        stage.addChild(shape);
+
+        createjs.Tween.get(shape).to({guide:{ path:drawTweenCirclePath({
+            beginPoint: 'left',
+            radius: 200,
+            origin: [200,200],
+            clockwise: 0
+        }) }},4000);
+
+        var path = new createjs.Shape();
+        path.graphics.beginStroke("#ff00ff").moveTo(200,0).curveTo(0,0,0,200).curveTo(0,400,200,400).curveTo(400,400,400,200).curveTo(400,0,200,0);
+        stage.addChild(path);
+
+        function tick(event) {
+            stage.update();
+        }
+    </script>
+</body>
+</html>
