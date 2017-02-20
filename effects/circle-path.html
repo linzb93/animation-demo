@@ -66,7 +66,7 @@
         shape.graphics.beginFill("#ff00ff").drawCircle(0,0,50);
         stage.addChild(shape);
 
-        createjs.Tween.get(shape).to({guide:{ path:drawTweenCirclePath({
+        createjs.Tween.get(shape, {LOOP: 3}).to({guide:{ path:drawTweenCirclePath({
             beginPoint: 'left',
             radius: 200,
             origin: [200,200],
