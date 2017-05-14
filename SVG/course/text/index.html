@@ -3,13 +3,13 @@
     <meta charset="UTF-8">
 </head>
 <body>
-    <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-            <path id="path1" d="M75,20 a1,1 0 0,0 100,0" />
-        </defs>
-        <text x="0" y="15" fill="red">
-            <textPath xlink:href="#path1">I love SVG I love SVG</textPath>
-        </text>
-    </svg>
+<svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <!--dx和dy是单个letter的偏移量-->
+    <text x="100" y="100" style="font-size: 50px;" dx="0 20 40 60" dy="0 20 40 60">
+        <!--tspan属性里面有dx和dy的会对应覆盖text属性里面的dx和dy。tspan的dy对后面的tspan也有效。-->
+        <tspan fill="red" dx="10 10 10 10">Hello </tspan>
+        <tspan stroke="blue" fill="none" stroke-width="3">World!</tspan>
+    </text>
+</svg>
 </body>
 </html>

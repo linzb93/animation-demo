@@ -3,8 +3,14 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<svg width="100%" height="100%" version="1.1"
-xmlns="http://www.w3.org/2000/svg">
-</svg>
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <path id="path1" d="M75,20 a1,1 0 0,0 100,30" />
+        </defs>
+        <text x="0" y="15" fill="red">
+            <!--文本超出路径的不会渲染-->
+            <textPath xlink:href="#path1">I love SVG I love SVG I love SVG</textPath>
+        </text>
+    </svg>
 </body>
 </html>

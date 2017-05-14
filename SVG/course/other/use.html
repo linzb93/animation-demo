@@ -5,10 +5,33 @@
 <body>
 <svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">
     <defs>
-        <rect id="rec" width="30" height="30" fill="red"/>
+        <rect id="rec" width="30" height="30"/>
     </defs>
-    <use xlink:href="#rec" width="100" height="100" x="20" y="20"></use>
-    <use xlink:href="#rec" width="100" height="100" x="120" y="120"></use>
+    <g id="rect-group"></g>
 </svg>
+<script>
+    var group = document.getElementById('rect-group');
+    var fragment = document.createDocumentFragment();
+    var SVG_NS = 'http://www.w3.org/2000/svg';
+    var XLINK_NS = 'http://www.w3.org/1999/xlink';
+    var count = 200;
+
+    function random(min, max) {
+        return parseInt(Math.random() * (max - min) + min);
+    }
+    
+    function renderRect() {
+        var use = document.createElementNS(SVG_NS, 'use');
+        use.setAttributeNS(XLINK_NS, 'xlink:href', '#rec');
+        use.setAttribute('transform', 'translate(' + random(0,1000) +',' + random(0,500) + ')');
+        use.setAttribute('fill', 'rgb(' + random(0, 255) + ',' + random(0, 255) + ', ' + random(0, 255) + ')');
+        fragment.appendChild(use);
+    }
+
+    while(count--) {
+        renderRect();
+    }
+    group.appendChild(fragment);
+</script>
 </body>
 </html
